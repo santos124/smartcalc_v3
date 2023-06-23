@@ -5,15 +5,15 @@ import (
 )
 
 type ViewModel struct {
-    model *model.Model
+	model *model.Model
 }
 
 func NewViewModel(m *model.Model) *ViewModel {
-    return &ViewModel{
-        model: m,
-    }
+	return &ViewModel{
+		model: m,
+	}
 }
 
 func (vm *ViewModel) Calculate(line string) string {
-    return vm.model.Calculate(line)
+	return vm.model.Calculate(line)
 }

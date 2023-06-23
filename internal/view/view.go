@@ -63,6 +63,7 @@ type View struct {
 		buttonResult: &widget.Button{}, vm: vm,
 	}
 }
+
 func (v *View) createBaseUI() {
 	a := app.New()
 	w := a.NewWindow("Calculator")
@@ -70,16 +71,19 @@ func (v *View) createBaseUI() {
 	v.app = a
 	v.window = w
 }
+
 func (v *View) createEntry() {
 	infoEntry := widget.NewLabel("Введи выражение:")
 	entry1 := widget.NewEntry()
 	v.expressionEntry = entry1
 	v.infoEntry = infoEntry
 }
+
 func (v *View) createResult() {
 	result := widget.NewLabel("Тут будет результат")
 	v.resultLabel = result
 }
+
 func (v *View) createButton() {
 	btn := widget.NewButton("посчитать", func() {
 		num1, err1 := strconv.ParseFloat(v.expressionEntry.Text, 64)
@@ -94,32 +98,44 @@ func (v *View) createButton() {
 	})
 	v.buttonResult = btn
 }
+
 func (v *View) createKeys() *fyne.Container {
-	col1 := container.NewHBox(
-		widget.NewButton("cos(x)", func() {}), widget.NewButton("sin(x)", func() {}),
-		widget.NewButton("tan(x)", func() {}), widget.NewButton("acos(x)", func() {}),
-		widget.NewButton("asin(x)", func() {}), widget.NewButton("atan(x)", func() {}))
-	col2 := container.NewHBox(
-		widget.NewButton("sqrt(x)", func() {}), widget.NewButton("ln(x)", func() {}),
-		widget.NewButton("log(x)", func() {}), widget.NewButton("(", func() {}),
-		widget.NewButton(")", func() {}), widget.NewButton("MOD", func() {}))
-	col3 := container.NewHBox(
-		widget.NewButton(" + ", func() {}), widget.NewButton(" - ", func() {}),
-		widget.NewButton(" * ", func() {}),
-		widget.NewButton(" / ", func() {}), widget.NewButton("^", func() {}),
-		widget.NewButton("AC", func() {}))
-	col4 := container.NewHBox(widget.NewButton("+x", func() {}),
-		widget.NewButton("-x", func() {}),
-	)
-	row := container.NewVBox(col1, col2, col3, col4)
+
+	vb1 := container.NewVBox(
+		widget.NewButton(" ÷  ", func() {}),
+		widget.NewButton(" ×  ", func() {}),
+		widget.NewButton(" -  ", func() {}),
+		widget.NewButton(" +  ", func() {}),
+		widget.NewButton(" =  ", func() {}))
+	vb2 := container.NewVBox(
+		widget.NewButton(" %  ", func() {}),
+		widget.NewButton(" 9  ", func() {}),
+		widget.NewButton(" 6  ", func() {}),
+		widget.NewButton(" 3  ", func() {}),
+		widget.NewButton(" AC ", func() {}))
+	vb3 := container.NewVBox(
+		widget.NewButton(" -x  ", func() {}),
+		widget.NewButton(" 8  ", func() {}),
+		widget.NewButton(" 5  ", func() {}),
+		widget.NewButton(" 2  ", func() {}),
+		widget.NewButton(" .  ", func() {}))
+	vb4 := container.NewVBox(
+		widget.NewButton(" +x  ", func() {}),
+		widget.NewButton(" 7  ", func() {}),
+		widget.NewButton(" 4  ", func() {}),
+		widget.NewButton(" 1  ", func() {}),
+		widget.NewButton(" 0  ", func() {}))
+	row := container.NewHBox(vb4, vb3, vb2, vb1)
 	return row
 }
+
 func (v *View) createButtons() {
 	mainFields := container.NewHBox(container.NewVBox(
 		v.timer, v.infoEntry, v.resultLabel))
 	rowEntry := container.NewVBox(v.expressionEntry, mainFields, v.createKeys())
 	v.window.SetContent(rowEntry)
 }
+
 func (v *View) checkExpr() {
 	for {
 		if strings.Contains(v.expressionEntry.Text, "=") {
@@ -132,14 +148,12 @@ func (v *View) checkExpr() {
 		time.Sleep(time.Second)
 	}
 }
-func (v *View) setEntry5() {
-}
-func (v *View) setEntry() {
-}
+
 func (v *View) Fire() {
 	v.createBaseUI()
 	v.showTime() //кнопку пока отключим
-	// v.createButton()     v.createResult()
+	// v.createButton()
+	v.createResult()
 	v.createEntry()
 	go v.checkExpr()
 	v.createButtons()
@@ -157,6 +171,7 @@ func (v *View) showTime() {
 	}()
 	v.timer = timer
 }
+
 func tidyUp() {
 	fmt.Println("Exited")
 }

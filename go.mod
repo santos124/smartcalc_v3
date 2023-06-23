@@ -1,6 +1,6 @@
 module smartcalc_v3_wadina
 
-go 1.20
+go 1.18
 
 require fyne.io/fyne/v2 v2.3.4
 
